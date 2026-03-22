@@ -1,19 +1,79 @@
-import { Button } from "@/components/ui/button"
+"use client"
+
+import { ProjectCard } from "@/components/project-card"
+import { Card } from "@/components/ui/card"
+import { FillText } from "@/components/fill-text"
+
+// The data for each project card, collected in one place.
+// Later this could live in a separate data file — but keeping it here for now keeps things simple.
+const projects = [
+  {
+    title: "Productising a core business stream",
+    description: "Transforming offline PDFs and CSVs into a new, productised in-app experience",
+    imageSrc: "/images/heros/sylvera-hero.png",
+    href: "/sylvera",
+    imageTone: "light" as const,
+  },
+  {
+    title: "Turning a niche CLI tool into a product anyone can use",
+    description: "Designing a visual web app to make dataset anomaly detection accessible",
+    imageSrc: "/images/heros/dave-hero.png",
+    href: "/dave",
+    imageTone: "light" as const,
+  },
+  {
+    title: "Redesigning an algorithmic investment platform",
+    description: "Bringing brand and UX coherence to a previously developer-led app design",
+    imageSrc: "/images/heros/sigtech-hero.png",
+    href: "/sigtech-app",
+    imageTone: "light" as const,
+  },
+  {
+    title: "Researching & strategising UX for quants",
+    description: "Building a research foundation for a product used exclusively by quantitative analysts",
+    imageSrc: "/images/heros/research-hero.png",
+    href: "/sig-research",
+  },
+  {
+    title: "Redesigning dev tools for massively multiplayer games",
+    description: "Rethinking the developer experience for a distributed game engine platform",
+    imageSrc: "/images/heros/spatialos-hero.png",
+    href: "/spatialos",
+  },
+]
 
 export default function Page() {
   return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
-        </div>
-        <div className="font-mono text-xs text-muted-foreground">
-          (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
+    // h-dvh: fills the full viewport height on desktop (dvh accounts for mobile browser chrome)
+    <main className="md:h-dvh">
+
+      {/* Mobile: 1 column, each card has a fixed 380px height — simple vertical stack.
+          md and up: 2 columns, 3 explicit equal rows (grid-rows-3 = repeat(3, 1fr)),
+          h-full makes the grid stretch to fill the full main height — so 6 cards tile the viewport. */}
+      <div className="grid grid-cols-1 auto-rows-[380px] md:grid-cols-2 md:grid-rows-3 md:h-full md:auto-rows-auto">
+
+        {/* Typography card — no image, pure text. Sits first in the grid alongside a project card.
+            flex + flex-col lets us stack the two text lines vertically with space between them.
+            justify-between pushes the second line to the bottom of the card. */}
+        {/* [container-type:inline-size] makes this card a CSS container,
+            so cqw units inside it are relative to this card's width, not the viewport */}
+        <Card className="flex items-start p-8">
+          {/* ReactFitty measures its container and scales the font to fill the available width.
+              wrapText allows the text to wrap across lines rather than being forced onto one. */}
+          <FillText className="font-semibold leading-snug">
+            {/* text-lime by default; reverts to semi-opaque when an image card is hovered.
+                group-hover/images: fires when any element inside the group/images wrapper is hovered. */}
+            <span className="opacity-40">Nicolas Holzapfel&apos;s portfolio. </span>
+            Over a decade of turning big, messy tech into tools for humans. My thing: grappling with complexity, putting chaos to order, shipping quality fast. <a href="https://linkedin.com/in/niczap" target="_blank" rel="noopener noreferrer" className="opacity-40 hover:opacity-100">linkedin.com/in/niczap</a><span className="opacity-40">. </span><a href="mailto:nicolas@niczap.design" className="opacity-40 hover:opacity-100">nicolas@niczap.design</a><span className="opacity-40">.</span>
+          </FillText>
+        </Card>
+
+        {projects.map((project) => (
+          <ProjectCard key={project.href} {...project} />
+        ))}
+
       </div>
-    </div>
+
+    </main>
   )
 }

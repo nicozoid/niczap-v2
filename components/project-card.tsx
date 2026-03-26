@@ -27,7 +27,7 @@ export function ProjectCard({ title, description, imageSrc, href, imageTone = "d
           src={imageSrc}
           alt={title}
           fill
-          className={`object-cover ${imagePosition} scale-[1.01] grayscale-[70%] group-hover:grayscale-0 transition-[filter] duration-500`}
+          className={`object-cover ${imagePosition} scale-[1.01] md:grayscale-[70%] md:group-hover:grayscale-0 transition-[filter] duration-500`}
         />
 
         {/* Shared backdrop parent — bg + blur live here so title & description

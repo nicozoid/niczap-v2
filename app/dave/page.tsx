@@ -5,9 +5,12 @@ import { ContentSection } from "@/components/project/content-section"
 import { StandaloneImage } from "@/components/project/project-image"
 import { ProjectReflections } from "@/components/project/project-reflections"
 import { NextProject } from "@/components/project/next-project"
+import { getProject } from "@/data/projects"
+
+const project = getProject("/dave")
 
 export const metadata: Metadata = {
-  title: "Turning a niche CLI tool into a product anyone can use | Nicolas Holzapfel",
+  title: `${project.title} | Nicolas Holzapfel`,
 }
 
 export default function DavePage() {
@@ -15,8 +18,8 @@ export default function DavePage() {
     <ProjectLayout>
 
       <ProjectTitle
-        title="Turning a niche CLI tool into a product anyone can use"
-        subtitle="Turning a complex CLI tool into an intuitive, visual web app"
+        title={project.title}
+        subtitle={project.description}
       />
 
       <ContentSection label="Context">

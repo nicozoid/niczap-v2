@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-    --link-hover: hsl(118, 62%, 65%);
+    --link-hover: #16a34a;
     --background: oklch(0.974 0 0);
     --foreground: oklch(0.145 0 0);
     --card: oklch(1 0 0);

@@ -5,10 +5,12 @@ import { ContentSection } from "@/components/project/content-section"
 import { StandaloneImage, FullBleedImage } from "@/components/project/project-image"
 import { ProjectReflections } from "@/components/project/project-reflections"
 import { NextProject } from "@/components/project/next-project"
+import { getProject } from "@/data/projects"
 
-// Next.js reads this export to set the <title> and <meta description> for the page
+const project = getProject("/sylvera")
+
 export const metadata: Metadata = {
-  title: "Productising a core business stream | Nicolas Holzapfel",
+  title: `${project.title} | Nicolas Holzapfel`,
 }
 
 export default function SylveraPage() {
@@ -16,8 +18,8 @@ export default function SylveraPage() {
     <ProjectLayout>
 
       <ProjectTitle
-        title="Productising a core business stream"
-        subtitle="Transforming offline PDFs and CSVs into a new, productised in-app experience"
+        title={project.title}
+        subtitle={project.description}
       />
 
       <ContentSection label="Context">

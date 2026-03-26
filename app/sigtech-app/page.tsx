@@ -5,9 +5,12 @@ import { ContentSection } from "@/components/project/content-section"
 import { StandaloneImage } from "@/components/project/project-image"
 import { ProjectReflections } from "@/components/project/project-reflections"
 import { NextProject } from "@/components/project/next-project"
+import { getProject } from "@/data/projects"
+
+const project = getProject("/sigtech-app")
 
 export const metadata: Metadata = {
-  title: "Redesigning an algorithmic investment platform | Nicolas Holzapfel",
+  title: `${project.title} | Nicolas Holzapfel`,
 }
 
 export default function SigTechAppPage() {
@@ -15,8 +18,8 @@ export default function SigTechAppPage() {
     <ProjectLayout>
 
       <ProjectTitle
-        title="Redesigning an algorithmic investment platform"
-        subtitle="Bringing brand and UX coherence to a previously developer-led app design"
+        title={project.title}
+        subtitle={project.description}
       />
 
       <ContentSection label="Context">

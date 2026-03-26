@@ -2,10 +2,12 @@ import Image from "next/image"
 
 // StandaloneImage: a full-width image within the container, with consistent vertical spacing.
 // This is the default image treatment — used for the majority of project page images.
-export function StandaloneImage({ src, alt }: { src: string; alt: string }) {
+export function StandaloneImage({ src, alt, maxWidth }: { src: string; alt: string; maxWidth?: number }) {
   return (
     // my-12 matches the ~50px vertical margin used in v1
-    <div className="my-12">
+    // If maxWidth is provided, it constrains the image width via inline style
+    // (inline style because Tailwind can't handle dynamic pixel values passed as props)
+    <div className="my-12 mx-auto" style={maxWidth ? { maxWidth } : undefined}>
       {/* Next.js <Image> requires width and height props. Setting both to 0 and then
           overriding with className is the standard pattern for responsive images
           where you want 100% width and automatic height. sizes tells the browser

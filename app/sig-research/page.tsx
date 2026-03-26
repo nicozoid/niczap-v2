@@ -5,9 +5,12 @@ import { ContentSection } from "@/components/project/content-section"
 import { StandaloneImage } from "@/components/project/project-image"
 import { ProjectReflections } from "@/components/project/project-reflections"
 import { NextProject } from "@/components/project/next-project"
+import { getProject } from "@/data/projects"
+
+const project = getProject("/sig-research")
 
 export const metadata: Metadata = {
-  title: "Researching & strategising UX for quants | Nicolas Holzapfel",
+  title: `${project.title} | Nicolas Holzapfel`,
 }
 
 export default function SigResearchPage() {
@@ -15,8 +18,8 @@ export default function SigResearchPage() {
     <ProjectLayout>
 
       <ProjectTitle
-        title="Researching & strategising UX for quants"
-        subtitle="Bringing complex user experience to the company consciousness — and fixing the top issue with a game-like onboarding."
+        title={project.title}
+        subtitle={project.description}
       />
 
       <ContentSection label="Context">

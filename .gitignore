@@ -31,6 +31,12 @@ pnpm-debug.log*
 # env files
 .env*.local
 
+# claude
+.claude/
+
+# archive
+archive-niczap-v1/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

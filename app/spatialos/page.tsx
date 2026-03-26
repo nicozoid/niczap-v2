@@ -5,9 +5,12 @@ import { ContentSection } from "@/components/project/content-section"
 import { StandaloneImage } from "@/components/project/project-image"
 import { ProjectReflections } from "@/components/project/project-reflections"
 import { EndOfProjects } from "@/components/project/end-of-projects"
+import { getProject } from "@/data/projects"
+
+const project = getProject("/spatialos")
 
 export const metadata: Metadata = {
-  title: "Redesigning dev tools for massively multiplayer games | Nicolas Holzapfel",
+  title: `${project.title} | Nicolas Holzapfel`,
 }
 
 export default function SpatialOSPage() {
@@ -15,8 +18,8 @@ export default function SpatialOSPage() {
     <ProjectLayout>
 
       <ProjectTitle
-        title="Redesigning dev tools for massively multiplayer games"
-        subtitle="Overhauling a family of UIs for testing and deploying online games with uniquely massive CPU demands on player and NPC scale, density and complexity"
+        title={project.title}
+        subtitle={project.description}
       />
 
       <ContentSection label="Context">

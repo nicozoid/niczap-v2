@@ -14,7 +14,7 @@ export function ProjectTitle({
       <h1 className="text-4xl md:text-5xl font-medium leading-snug">{title}</h1>
 
       {/* Subtitle is visually secondary via muted colour and slightly larger body size */}
-      <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">{subtitle}</p>
+      <p className="mt-4 text-lg text-muted-foreground">{subtitle}</p>
 
       {/* The rule acts as a visual full-stop before the content begins.
           opacity-20 gives it a very light, editorial feel */}

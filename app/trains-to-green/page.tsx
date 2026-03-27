@@ -27,7 +27,7 @@ export default function TrainsToGreenPage() {
       <div className="my-12 mx-auto" style={{ maxWidth: 800 }}>
         <a href="https://trainstogreen.niczap.design" target="_blank" rel="noopener noreferrer">
           <Image
-            src="/images/heros/trainstogreen-hero-green.png"
+            src="/images/heros/trainstogreen-hero-art-green.png"
             alt="Trains to Green project hero"
             width={0}
             height={0}

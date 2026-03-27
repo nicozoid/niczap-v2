@@ -24,9 +24,9 @@ export const projects: Project[] = [
     title: "AI-first design",
     description:
       "Single-handedly designing & developing a web app with a code-literate AI-first approach",
-    imageSrc: "/images/heros/trainstogreen.png",
+    imageSrc: "/images/heros/trainstogreen-art.png",
     href: "/trains-to-green",
-    imageTone: "dark",
+    imageTone: "light",
     imagePosition: "object-left",
   },
   {

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Midjourney: simplified sailing ship mark -->
+  <!-- Main sail (right, larger) -->
+  <path d="M52 72 L52 18 L82 72 Z" fill="#000"/>
+  <!-- Foresail (left, smaller) -->
+  <path d="M48 72 L48 32 L22 72 Z" fill="#000"/>
+  <!-- Hull -->
+  <path d="M14 75 Q52 85 88 75 L84 82 Q52 92 18 82 Z" fill="#000"/>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Recraft: stylised R mark with a circular cut, matching their geometric brand aesthetic -->
+  <rect x="18" y="18" width="64" height="64" rx="14" fill="#0066FF"/>
+  <!-- Letterform R -->
+  <path d="M32 30 L32 70 M32 30 L55 30 Q68 30 68 43 Q68 56 55 56 L32 56 M52 56 L68 70"
+        stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

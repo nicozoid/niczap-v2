@@ -17,6 +17,8 @@ export type Project = {
   /** Optional: Tailwind object-position class for the card image, e.g. "object-left".
    *  Defaults to "object-center" if not set */
   imagePosition?: string
+  /** If true, the project is excluded from the homepage grid but its page still works */
+  hidden?: boolean
 }
 
 export const projects: Project[] = [
@@ -59,6 +61,7 @@ export const projects: Project[] = [
       "Building a research foundation for a product used exclusively by quantitative analysts",
     imageSrc: "/images/heros/research-hero.png",
     href: "/sig-research",
+    hidden: true,
   },
   {
     title: "Redesigning dev tools for massively multiplayer games",

@@ -4,6 +4,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Smooth scroll for in-page anchor links (e.g. "etc" → Designcraft learnings) */
+html {
+  scroll-behavior: smooth;
+}
+
 :root {
     --link-hover: #16a34a;
     --background: oklch(0.974 0 0);
@@ -175,4 +180,17 @@ a:hover, a:active {
 }
 .prose-content em {
   font-style: italic;
+}
+/* h3 headings inside prose — used for Q&A format sections like Designcraft learnings.
+   margin-top creates clear separation between Q&A pairs; first-child removes the
+   top gap when the h3 is the first element in the section. */
+.prose-content h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+.prose-content h3:first-child {
+  margin-top: 0;
 }

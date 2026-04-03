@@ -22,6 +22,16 @@ export function ProjectLayout({ children }: { children: React.ReactNode }) {
 
         {children}
 
+        {/* Footer link back to the homepage project list */}
+        <div className="pt-16 pb-8 text-center">
+          <Link
+            href="/"
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            ← All projects
+          </Link>
+        </div>
+
       </div>
     </div>
   )

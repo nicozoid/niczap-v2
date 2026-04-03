@@ -72,9 +72,9 @@ export default function SigTechAppPage() {
       />
 
       <NextProject
-        href="/sig-research"
-        imageSrc="/images/heros/research-hero-violet.png"
-        imageAlt="SigTech research project"
+        href="/spatialos"
+        imageSrc="/images/heros/spatialos-hero-green.png"
+        imageAlt="SpatialOS dev tools redesign"
       />
 
     </ProjectLayout>

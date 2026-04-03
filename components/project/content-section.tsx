@@ -4,10 +4,15 @@
 export function ContentSection({
   label,
   children,
+  hideLabel = false,
 }: {
   label: string
   // children can be anything: <p>, <ul>, <ol>, <strong>, etc.
   children: React.ReactNode
+  /** When true the label is visually hidden but the left column still occupies
+   *  space, so the content stays in the right 2/3 column. Useful when a
+   *  SectionDivider already provides the heading above. */
+  hideLabel?: boolean
 }) {
   return (
     // my-12 creates consistent vertical rhythm between sections on the page.
@@ -16,9 +21,11 @@ export function ContentSection({
 
       {/* Left column: the section label.
           md:flex-1 means it takes 1 "share" of available horizontal space (= ~1/3).
-          shrink-0 prevents it from collapsing when the content column is wide. */}
-      <div className="md:flex-1 shrink-0">
-        <h2 className="text-2xl font-medium leading-snug">{label}</h2>
+          shrink-0 prevents it from collapsing when the content column is wide.
+          When hideLabel is true, the column remains for spacing but the text
+          is hidden on desktop (and fully hidden on mobile via "hidden md:block"). */}
+      <div className={`md:flex-1 shrink-0${hideLabel ? " hidden md:block" : ""}`}>
+        <h2 className={`text-2xl font-medium leading-snug${hideLabel ? " invisible" : ""}`}>{label}</h2>
       </div>
 
       {/* Right column: the actual content.

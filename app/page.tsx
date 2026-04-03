@@ -6,6 +6,9 @@ import { FillText } from "@/components/fill-text"
 import { projects } from "@/data/projects"
 
 export default function Page() {
+  // Filter out projects marked as hidden (e.g. research) — their pages still work via direct URL
+  const visibleProjects = projects.filter((p) => !p.hidden)
+
   return (
     // h-dvh: fills the full viewport height on desktop (dvh accounts for mobile browser chrome)
     <main className="md:h-dvh">
@@ -13,7 +16,7 @@ export default function Page() {
       {/* Mobile: 1 column, each card has a fixed 380px height — simple vertical stack.
           md and up: 2 columns, 3 explicit equal rows (grid-rows-3 = repeat(3, 1fr)),
           h-full makes the grid stretch to fill the full main height — so 6 cards tile the viewport. */}
-      <div className="grid grid-cols-1 auto-rows-[380px] md:grid-cols-2 md:grid-rows-4 md:h-full md:auto-rows-auto">
+      <div className="grid grid-cols-1 auto-rows-[380px] md:grid-cols-2 md:grid-rows-3 md:h-full md:auto-rows-auto">
 
         {/* Typography card — no image, pure text. Sits first in the grid alongside a project card.
             flex + flex-col lets us stack the two text lines vertically with space between them.
@@ -33,12 +36,12 @@ export default function Page() {
 
         {/* Total grid items = projects + 1 (the text card above).
             If that's odd, the last row has a gap — so stretch the last card across both columns. */}
-        {projects.map((project, index) => (
+        {visibleProjects.map((project, index) => (
           <ProjectCard
             key={project.href}
             {...project}
             className={
-              (projects.length + 1) % 2 !== 0 && index === projects.length - 1
+              (visibleProjects.length + 1) % 2 !== 0 && index === visibleProjects.length - 1
                 ? "md:col-span-2"
                 : ""
             }

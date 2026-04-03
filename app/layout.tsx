@@ -10,6 +10,12 @@ import { cn } from "@/lib/utils";
 // this layout export covers it. Project pages override the title with their own export.
 export const metadata: Metadata = {
   title: "Nicolas Holzapfel's portfolio",
+  description:
+    "Over a decade of turning big, messy tech into tools for humans. My thing: grappling with complexity, putting chaos to order, shipping quality fast.",
+  openGraph: {
+    description:
+      "Over a decade of turning big, messy tech into tools for humans. My thing: grappling with complexity, putting chaos to order, shipping quality fast.",
+  },
 }
 
 // Inria Sans — the font used on the original v1 site.

@@ -1,9 +1,11 @@
 import Image from "next/image"
 import Link from "next/link"
+import { getProject } from "@/data/projects"
 
 // NextProject renders the navigation footer at the bottom of each project page.
 // The label "Next project" sits between two horizontal rules — a typographic device
 // from the v1 site that creates a clean visual divider without being heavy.
+// The next project's title is looked up automatically from the href.
 export function NextProject({
   href,
   imageSrc,
@@ -13,6 +15,9 @@ export function NextProject({
   imageSrc: string
   imageAlt: string
 }) {
+  // Look up the next project's title from the central registry
+  const nextProject = getProject(href)
+
   return (
     <div className="my-20">
 
@@ -40,6 +45,14 @@ export function NextProject({
           sizes="70vw"
           className="w-[70%] h-auto mx-auto hover:opacity-80 transition-opacity"
         />
+      </Link>
+
+      {/* Project title link below the image */}
+      <Link
+        href={href}
+        className="block text-center mt-4 text-lg text-muted-foreground hover:text-foreground transition-colors"
+      >
+        {nextProject.title}
       </Link>
 
     </div>

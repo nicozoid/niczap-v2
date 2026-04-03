@@ -3,6 +3,7 @@ import { ProjectLayout } from "@/components/project/project-layout"
 import { ProjectTitle } from "@/components/project/project-title"
 import { ContentSection } from "@/components/project/content-section"
 import { SectionDivider } from "@/components/project/section-divider"
+import { SectionIntro } from "@/components/project/section-intro"
 import { ImageLightbox } from "@/components/ui/image-lightbox"
 import Image from "next/image"
 import { NextProject } from "@/components/project/next-project"
@@ -128,15 +129,13 @@ export default function TrainsToGreenPage() {
       {/* CONTEXT                                                             */}
       {/* ------------------------------------------------------------------ */}
 
-      <SectionDivider label="Context" />
+      <SectionDivider label="Context" compact />
 
-      {/* hideLabel keeps the left column for spacing so text stays right-aligned,
-          but "Intro" isn't visible since the SectionDivider above provides the heading */}
-      <ContentSection label="Intro" hideLabel>
+      <SectionIntro>
         <p>
-          Trains to Green is a simple web app developed in my spare time to solve a niche problem for London hikers and to challenge myself to adopt new ways of working enabled by AI.
+          Trains to Green is a simple web app developed in my spare time to solve a niche problem for London hikers and to challenge myself to adopt new ways of working enabled by the latest LLM models.
         </p>
-      </ContentSection>
+      </SectionIntro>
 
       <ContentSection label="UX goals">
         <p>
@@ -173,7 +172,7 @@ export default function TrainsToGreenPage() {
       <ContentSection label="Tools">
         <LogoGarden items={toolItems} />
         <p className="mt-6">
-          I set up the project manually via the terminal, opened up VS Code and then used a combination of hand-coding and the Claude Code VS Code plugin to build. Later on I switched to mainly using the Claude Code desktop app and only hand-coding the occasional CSS &amp; copy tweak.
+          I set up the project manually via the terminal, opened up VS Code and then used a combination of hand-coding and the Claude Code VS Code plugin to build. Later on I switched to mainly using the Claude Code desktop app and only hand-coding occasional Tailwind CSS and copy changes.
         </p>
         <p>
           I used Midjourney to generate the flagship artwork (see the top of this page) and Recraft to create the logo (since Midjourney can&apos;t create vectors). I used Hugeicons for icons and Mapbox Studio to customise and recolour the map.
@@ -255,7 +254,13 @@ export default function TrainsToGreenPage() {
       {/* DESIGNCRAFT LEARNINGS                                               */}
       {/* ------------------------------------------------------------------ */}
 
-      <SectionDivider label="Designcraft learnings" id="designcraft-learnings" />
+      <SectionDivider label="Designcraft learnings" id="designcraft-learnings" compact />
+
+      <SectionIntro>
+        <p>
+          A key goal for this project was to explore AI-enabled design workflows in light of February&apos;s breakthrough in model capabilities. Here's a Q&A with myself to work through my reflections:
+        </p>
+      </SectionIntro>
 
       <ContentSection label="Can I skip Figma and design directly in the coding environment?">
         <p>
@@ -294,7 +299,10 @@ export default function TrainsToGreenPage() {
 
       <ContentSection label="How much code-literacy is required? How much manual-coding is required?">
         <p>
-          Much less than I imagined! It was helpful, but not necessary, that I understand HTML, CSS, Tailwind and the basics of React. Having a clear mental model of how, for example, Flexbox layouts work meant I could easily see where Claude had made mistakes and how these could be corrected (though these are in any case very similar to Figma mental models). Sometimes I would jump into the code and edit Tailwind utilities directly, or just edit copy, because it was faster just to make the changes than to explain them to Claude, but this wasn&apos;t essential.
+          Much less than I imagined! It was helpful, but not necessary, that I understand HTML, CSS, Tailwind and the basics of React. Having a clear mental model of how, for example, Flexbox layouts work meant I could easily see where Claude had made mistakes and how these could be corrected (though these are in any case very similar to Figma mental models). Sometimes I would jump into the code and edit Tailwind utilities, React components and copy directly, because it was faster just to make the changes than to explain them to Claude and wait for response (especially true for rapidly trying out different layout tweaks), but this wasn&apos;t essential.
+        </p>
+        <p>
+          Understanding the basics of React components and being able to see how this is organised in the code base is also helpful for instructing Claude to make changes that are systematic and modular, rather than messy one-off hacks, but this requires only minimal code-literacy — anyone who has designed a CMS will already be familiar with this way of thinking.
         </p>
         <p>
           Complex backend work and API interactions was handled entirely by Claude (obviously I still needed to actually generate the API tokens).

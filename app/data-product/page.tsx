@@ -7,7 +7,7 @@ import { ProjectReflections } from "@/components/project/project-reflections"
 import { NextProject } from "@/components/project/next-project"
 import { getProject } from "@/data/projects"
 
-const project = getProject("/dave")
+const project = getProject("/data-product")
 
 export const metadata: Metadata = {
   title: `${project.title} | Nicolas Holzapfel`,
@@ -106,7 +106,7 @@ export default function DavePage() {
       />
 
       <NextProject
-        href="/sigtech-app"
+        href="/fintech-design"
         imageSrc="/images/heros/sigtech-hero-green.png"
         imageAlt="Sample SigTech app designs"
       />

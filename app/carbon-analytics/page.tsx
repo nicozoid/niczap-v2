@@ -7,7 +7,7 @@ import { ProjectReflections } from "@/components/project/project-reflections"
 import { NextProject } from "@/components/project/next-project"
 import { getProject } from "@/data/projects"
 
-const project = getProject("/sylvera")
+const project = getProject("/carbon-analytics")
 
 export const metadata: Metadata = {
   title: `${project.title} | Nicolas Holzapfel`,
@@ -129,7 +129,7 @@ export default function SylveraPage() {
       />
 
       <NextProject
-        href="/dave"
+        href="/data-product"
         imageSrc="/images/heros/dave-hero-violet.png"
         imageAlt="Sample DaVe app designs"
       />

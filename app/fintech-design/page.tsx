@@ -7,7 +7,7 @@ import { ProjectReflections } from "@/components/project/project-reflections"
 import { NextProject } from "@/components/project/next-project"
 import { getProject } from "@/data/projects"
 
-const project = getProject("/sigtech-app")
+const project = getProject("/fintech-design")
 
 export const metadata: Metadata = {
   title: `${project.title} | Nicolas Holzapfel`,

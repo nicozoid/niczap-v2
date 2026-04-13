@@ -5,6 +5,16 @@ const nextConfig = {
   turbopack: {
     root: process.cwd(),
   },
+
+  // Permanent redirects from old project URLs to new ones.
+  // 308 status code tells search engines the move is permanent.
+  async redirects() {
+    return [
+      { source: "/sylvera", destination: "/carbon-analytics", permanent: true },
+      { source: "/dave", destination: "/data-product", permanent: true },
+      { source: "/sigtech-app", destination: "/fintech-design", permanent: true },
+    ]
+  },
 }
 
 export default nextConfig

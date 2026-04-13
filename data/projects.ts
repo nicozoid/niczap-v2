@@ -23,7 +23,7 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    title: "AI-first design",
+    title: "AI-first design (personal project)",
     description:
       "Single-handedly designing & developing a web app with AI and code-literacy",
     imageSrc: "/images/heros/trainstogreen-art.png",
@@ -32,27 +32,27 @@ export const projects: Project[] = [
     imagePosition: "object-left",
   },
   {
-    title: "Productising a core business stream",
+    title: "Carbon analytics product launch",
     description:
       "Transforming offline PDFs and CSVs into a new, productised in-app experience",
     imageSrc: "/images/heros/sylvera-hero.png",
-    href: "/sylvera",
+    href: "/carbon-analytics",
     imageTone: "light",
   },
   {
-    title: "Converting a complex CLI to an intuitive GUI",
+    title: "Data product launch",
     description:
       "Designing a visual web app to make dataset anomaly detection accessible",
     imageSrc: "/images/heros/dave-hero.png",
-    href: "/dave",
+    href: "/data-product",
     imageTone: "light",
   },
   {
-    title: "Redesigning an algorithmic investment platform",
+    title: "Foundational design for fintech",
     description:
       "Bringing brand and UX coherence to a previously developer-led app design",
     imageSrc: "/images/heros/sigtech-hero.png",
-    href: "/sigtech-app",
+    href: "/fintech-design",
     imageTone: "light",
   },
   {

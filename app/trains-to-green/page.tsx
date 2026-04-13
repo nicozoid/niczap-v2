@@ -331,9 +331,9 @@ export default function TrainsToGreenPage() {
         </p>
       </ContentSection>
 
-      {/* Link to the next project in the homepage grid order (Sylvera) */}
+      {/* Link to the next project in the homepage grid order */}
       <NextProject
-        href="/sylvera"
+        href="/carbon-analytics"
         imageSrc="/images/heros/sylvera-hero-green.png"
         imageAlt="Sylvera project hero"
       />

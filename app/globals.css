@@ -135,6 +135,11 @@ html {
 }
 
 /* Unlayered so it beats Tailwind's preflight `a { color: inherit }` which lives in @layer base */
+/* Underline links inside body text so they're visually distinct */
+:is(p, li, blockquote, .prose-content, .body-text) a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
 a:hover, a:active {
   color: var(--link-hover);
 }
@@ -147,6 +152,25 @@ a:hover, a:active {
     position: relative;
     left: 50%;
     transform: translateX(-50%);
+  }
+
+  /* Force scrollbars to always be visible (overrides macOS "overlay" scrollbar
+     behaviour that hides them until the user starts scrolling). Used on image
+     overlay containers so the user can immediately see the content is scrollable. */
+  .scrollbar-visible::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 10px;
+    height: 10px;
+  }
+  .scrollbar-visible::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 5px;
+  }
+  .scrollbar-visible::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+  }
+  .scrollbar-visible::-webkit-scrollbar-track {
+    background: transparent;
   }
 }
 

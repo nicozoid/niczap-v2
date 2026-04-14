@@ -1,12 +1,34 @@
+import type { ReactNode } from "react"
+
 // ProjectReflections renders the standard "Wins / Learnings" section at the
 // bottom of every project page. Each column gets equal horizontal space.
+// Items can be plain strings or JSX (e.g. containing links).
 export function ProjectReflections({
   wins,
   learnings,
+  bulleted = true,
 }: {
-  wins: string[]
-  learnings: string[]
+  wins: ReactNode[]
+  learnings: ReactNode[]
+  /** When false, items render as plain paragraphs instead of bullet points. */
+  bulleted?: boolean
 }) {
+  // Renders a list of items — either as a <ul> with bullets or as plain <p> tags.
+  const ItemList = ({ items }: { items: ReactNode[] }) =>
+    bulleted ? (
+      <ul className="list-disc list-outside pl-5 space-y-3 leading-relaxed">
+        {items.map((item, i) => (
+          <li key={i}>{item}</li>
+        ))}
+      </ul>
+    ) : (
+      <div className="space-y-3 leading-relaxed body-text">
+        {items.map((item, i) => (
+          <div key={i}>{item}</div>
+        ))}
+      </div>
+    )
+
   return (
     <div className="my-20">
 
@@ -21,22 +43,12 @@ export function ProjectReflections({
 
         <div className="flex-1">
           <h2 className="text-xl font-medium mb-4">Wins</h2>
-          {/* list-disc list-outside pl-5 replicates the v1 <ul> style */}
-          <ul className="list-disc list-outside pl-5 space-y-3 leading-relaxed">
-            {/* .map() with index as key is fine here since this list never reorders */}
-            {wins.map((win, i) => (
-              <li key={i}>{win}</li>
-            ))}
-          </ul>
+          <ItemList items={wins} />
         </div>
 
         <div className="flex-1">
           <h2 className="text-xl font-medium mb-4">Learnings</h2>
-          <ul className="list-disc list-outside pl-5 space-y-3 leading-relaxed">
-            {learnings.map((learning, i) => (
-              <li key={i}>{learning}</li>
-            ))}
-          </ul>
+          <ItemList items={learnings} />
         </div>
 
       </div>

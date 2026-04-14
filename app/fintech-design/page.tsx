@@ -4,7 +4,7 @@ import { ProjectTitle } from "@/components/project/project-title"
 import { ContentSection } from "@/components/project/content-section"
 import { StandaloneImage } from "@/components/project/project-image"
 import { ProjectReflections } from "@/components/project/project-reflections"
-import { NextProject } from "@/components/project/next-project"
+import { EndOfProjects } from "@/components/project/end-of-projects"
 import { getProject } from "@/data/projects"
 
 const project = getProject("/fintech-design")
@@ -71,11 +71,7 @@ export default function SigTechAppPage() {
         ]}
       />
 
-      <NextProject
-        href="/spatialos"
-        imageSrc="/images/heros/spatialos-hero-green.png"
-        imageAlt="SpatialOS dev tools redesign"
-      />
+      <EndOfProjects />
 
     </ProjectLayout>
   )

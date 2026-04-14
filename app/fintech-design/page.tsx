@@ -4,7 +4,7 @@ import { ProjectTitle } from "@/components/project/project-title"
 import { ContentSection } from "@/components/project/content-section"
 import { StandaloneImage } from "@/components/project/project-image"
 import { ProjectReflections } from "@/components/project/project-reflections"
-import { EndOfProjects } from "@/components/project/end-of-projects"
+import { NextProject } from "@/components/project/next-project"
 import { getProject } from "@/data/projects"
 
 const project = getProject("/fintech-design")
@@ -71,7 +71,12 @@ export default function SigTechAppPage() {
         ]}
       />
 
-      <EndOfProjects />
+      <NextProject
+        href="/trains-to-green"
+        imageSrc="/images/heros/trainstogreen-hero-art-green.png"
+        imageAlt="Trains to Green hiking app"
+        label="Back to first project"
+      />
 
     </ProjectLayout>
   )

@@ -12,10 +12,12 @@ export function NextProject({
   href,
   imageSrc,
   imageAlt,
+  label = "Next project",
 }: {
   href: string
   imageSrc: string
   imageAlt: string
+  label?: string
 }) {
   // Look up the next project's title from the central registry
   const nextProject = getProject(href)
@@ -32,7 +34,7 @@ export function NextProject({
           href={href}
           className="text-2xl font-medium whitespace-nowrap hover:opacity-50 transition-opacity"
         >
-          Next project
+          {label}
         </a>
         <div className="flex-1 border-t border-foreground/40" />
       </div>

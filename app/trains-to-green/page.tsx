@@ -335,7 +335,7 @@ export default function TrainsToGreenPage() {
       {/* Link to the next project in the homepage grid order */}
       <NextProject
         href="/ai-startup"
-        imageSrc="/images/heros/yareta-hero-naked.png"
+        imageSrc="/images/heros/yareta-hero-violet.png"
         imageAlt="Yareta AI startup redesign"
       />
 

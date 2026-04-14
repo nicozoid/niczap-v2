@@ -135,6 +135,11 @@ html {
 }
 
 /* Unlayered so it beats Tailwind's preflight `a { color: inherit }` which lives in @layer base */
+/* Underline links inside body text so they're visually distinct */
+:is(p, li, blockquote, .prose-content, .body-text) a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
 a:hover, a:active {
   color: var(--link-hover);
 }

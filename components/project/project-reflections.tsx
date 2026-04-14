@@ -22,9 +22,9 @@ export function ProjectReflections({
         ))}
       </ul>
     ) : (
-      <div className="space-y-3 leading-relaxed">
+      <div className="space-y-3 leading-relaxed body-text">
         {items.map((item, i) => (
-          <p key={i}>{item}</p>
+          <div key={i}>{item}</div>
         ))}
       </div>
     )

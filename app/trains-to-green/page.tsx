@@ -201,6 +201,7 @@ export default function TrainsToGreenPage() {
           src="/images/trainstogreen/station-radii.png"
           alt="Station radii showing easy hike and epic hike distances"
           maxWidth={500}
+          retina
         />
       </ContentSection>
 

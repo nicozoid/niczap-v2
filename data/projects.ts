@@ -56,6 +56,13 @@ export const projects: Project[] = [
     imageTone: "light",
   },
   {
+    title: "Foundational design for AI startup",
+    description: "Redesigning an early-stage AI product with lightning-fast development cycles but zero prior design involvement",
+    imageSrc: "/images/heros/placeholder.png",
+    href: "/ai-startup",
+    hidden: true,
+  },
+  {
     title: "Researching & strategising UX for quants",
     description:
       "Building a research foundation for a product used exclusively by quantitative analysts",

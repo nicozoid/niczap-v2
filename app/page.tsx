@@ -16,7 +16,8 @@ export default function Page() {
       {/* Mobile: 1 column, each card has a fixed 380px height — simple vertical stack.
           md and up: 2 columns, 3 explicit equal rows (grid-rows-3 = repeat(3, 1fr)),
           h-full makes the grid stretch to fill the full main height — so 6 cards tile the viewport. */}
-      <div className="grid grid-cols-1 auto-rows-[380px] md:grid-cols-2 md:grid-rows-3 md:h-full md:auto-rows-auto">
+      {/* gap-x-px + bg-border: the grid's background peeks through the 1px column gap, creating a subtle vertical divider (md only) */}
+      <div className="grid grid-cols-1 auto-rows-[380px] md:grid-cols-2 md:grid-rows-3 md:h-full md:auto-rows-auto md:gap-x-px md:bg-border">
 
         {/* Typography card — no image, pure text. Sits first in the grid alongside a project card.
             flex + flex-col lets us stack the two text lines vertically with space between them.

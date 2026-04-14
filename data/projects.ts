@@ -32,6 +32,13 @@ export const projects: Project[] = [
     imagePosition: "object-left",
   },
   {
+    title: "Foundational design for AI startup",
+    description: "Redesigning an early-stage AI product with lightning-fast development cycles but zero prior design involvement",
+    imageSrc: "/images/heros/yareta-hero-naked.png",
+    href: "/ai-startup",
+    imageTone: "light",
+  },
+  {
     title: "Carbon analytics product launch",
     description:
       "Transforming offline PDFs and CSVs into a new, productised in-app experience",
@@ -56,13 +63,6 @@ export const projects: Project[] = [
     imageTone: "light",
   },
   {
-    title: "Foundational design for AI startup",
-    description: "Redesigning an early-stage AI product with lightning-fast development cycles but zero prior design involvement",
-    imageSrc: "/images/heros/placeholder.png",
-    href: "/ai-startup",
-    hidden: true,
-  },
-  {
     title: "Researching & strategising UX for quants",
     description:
       "Building a research foundation for a product used exclusively by quantitative analysts",
@@ -76,6 +76,7 @@ export const projects: Project[] = [
       "Rethinking the developer experience for a distributed game engine platform",
     imageSrc: "/images/heros/spatialos-hero.png",
     href: "/spatialos",
+    hidden: true,
   },
 ]
 

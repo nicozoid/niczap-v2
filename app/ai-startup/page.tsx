@@ -153,7 +153,7 @@ export default function YaretaPage() {
       />
 
       <NextProject
-        href="/sylvera"
+        href="/carbon-analytics"
         imageSrc="/images/heros/sylvera-hero-green.png"
         imageAlt="Sylvera app designs"
       />

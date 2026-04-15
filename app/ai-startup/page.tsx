@@ -142,14 +142,14 @@ export default function YaretaPage() {
 
       <ContentSection label="Deep dive">
         <p>
-          As an example of how I overhauled the app, I provide an example of
-          my transformation of a single screen in the app. Much of my initial
-          work was distinguishing the underlying credible content from the
-          distracting vibe-coding bloat that Lovable had produced. From there I
-          was able to reorganise the meaningful content and flows in a way that
-          optimally user needs. Much of this involved cutting and simplifying —
-          Lovable had produced a UI that hid pointless bloat under an appearance
-          of multi-functional complexity.
+          To illustrate how I overhauled the app, I'll walk through the
+          transformation of a single screen. The first challenge was separating
+          the genuinely useful content from the noise — Lovable's vibe-coded
+          output had buried real functionality under layers of visual and
+          structural bloat. Once I'd identified what actually mattered, I could
+          reorganise the content and flows around real user needs. More often
+          than not, that meant cutting. What looked like a feature-rich
+          interface was largely unnecessary bloat.
         </p>
       </ContentSection>
 

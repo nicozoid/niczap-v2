@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback, useEffect } from "react"
+import { useState, useCallback, useEffect, useRef } from "react"
 import { RiCloseLine, RiFullscreenLine, RiSettings3Line, RiZoomInLine, RiZoomOutLine } from "@remixicon/react"
 import type { ComparisonData } from "./types"
 import { AnnotationLayer } from "./annotation-layer"
@@ -104,11 +104,17 @@ export function ComparisonOverlay({
 
   const isZoomed = beforeZoom > 1 || afterZoom > 1
 
+  // Track mousedown time so we can distinguish a quick click from a hold-down.
+  // Only quick clicks (< 300ms) should place admin dots.
+  const mouseDownTime = useRef(0)
+
   // Handle click on image in admin mode to place a dot.
   // Places immediately with a placeholder label — edit the text in the admin panel.
   const handleAdminClick = useCallback(
     (variant: "before" | "after", e: React.MouseEvent<HTMLImageElement>) => {
       if (!isAdmin || !onAdminPlaceDot) return
+      // Ignore hold-downs — only place a dot on a short press
+      if (Date.now() - mouseDownTime.current > 300) return
       const img = e.currentTarget
       const rect = img.getBoundingClientRect()
       const x = ((e.clientX - rect.left) / rect.width) * 100
@@ -119,7 +125,7 @@ export function ComparisonOverlay({
         id,
         x: Math.round(x * 10) / 10,
         y: Math.round(y * 10) / 10,
-        label: "New annotation — edit in admin panel",
+        label: "NEW ANNOTATION — EDIT IN ADMIN PANEL",
       }
       onAdminPlaceDot({
         ...data,
@@ -165,6 +171,7 @@ export function ComparisonOverlay({
           alt={side.alt}
           className="block w-full h-auto"
           onLoad={onLoad}
+          onMouseDown={() => { mouseDownTime.current = Date.now() }}
           onClick={(e) => {
             // In admin mode, clicking places a dot
             if (isAdmin) {
@@ -234,8 +241,7 @@ export function ComparisonOverlay({
       <div
         className="h-full overflow-y-auto flex justify-center items-start px-0 py-14"
       >
-        {/* Safe zone: clicks inside don't close the overlay */}
-        <div className="w-full" onClick={(e) => e.stopPropagation()}>
+        <div className="w-full">
           {/* Stacked on small screens (flex-col), side-by-side on wide screens (flex-row) */}
           <div className={`flex w-full ${useStacked ? "flex-col gap-4" : "flex-row gap-6 max-w-[95vw] mx-auto items-start"}`}>
             <ZoomContainer

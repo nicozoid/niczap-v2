@@ -77,8 +77,9 @@ export function ImageLightbox({
           <button
             type="button"
             onClick={close}
-            className="fixed top-4 right-4 z-10 cursor-pointer rounded-full p-2 transition-colors text-white bg-black/40 hover:bg-black/60"
+            className="fixed top-4 right-4 z-10 cursor-pointer rounded-full p-2 transition-colors text-white bg-black/40 hover:bg-black/30"
             aria-label="Close"
+            title="Close"
           >
             <RiCloseLine className="w-8 h-8" />
           </button>

@@ -1,11 +1,10 @@
 "use client"
 
-import { useState, useCallback, useEffect, useRef } from "react"
+import { useState, useCallback, useEffect } from "react"
 import { RiCloseLine, RiFullscreenLine, RiSettings3Line, RiZoomInLine, RiZoomOutLine } from "@remixicon/react"
 import type { ComparisonData } from "./types"
 import { AnnotationLayer } from "./annotation-layer"
 import { ZoomContainer } from "./zoom-container"
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 
 /** Overlay button with a custom tooltip that appears below on hover. */
 function OverlayButton({
@@ -64,76 +63,26 @@ export function ComparisonOverlay({
   onToggleAdmin?: () => void
   onAdminPlaceDot?: (data: ComparisonData) => void
 }) {
-  // Whether to use tabs instead of side-by-side (set after measuring images)
-  const [useTabs, setUseTabs] = useState(false)
+  // Stacked (vertical) vs side-by-side — matches the inline view's md: breakpoint (768px)
+  const [useStacked, setUseStacked] = useState(false)
   // Zoom levels — one per image so they can be zoomed independently
   const [beforeZoom, setBeforeZoom] = useState(1)
   const [afterZoom, setAfterZoom] = useState(1)
-  // Natural image dimensions (from onLoad)
-  const beforeDims = useRef({ w: 0, h: 0 })
-  const afterDims = useRef({ w: 0, h: 0 })
-  // Track how many images have loaded
-  const [loadCount, setLoadCount] = useState(0)
 
-  // --- Layout decision: side-by-side vs tabs ---
+  // Check layout on mount and resize — simple width check, no image measurement needed
   const checkLayout = useCallback(() => {
-    const viewportW = window.innerWidth
+    setUseStacked(window.innerWidth < 768)
+  }, [])
 
-    // Below Tailwind's sm breakpoint (640px) → always use tabs
-    if (viewportW < 640) {
-      setUseTabs(true)
-      return
-    }
-
-    // Wait until both images have loaded so we know their natural dimensions
-    if (beforeDims.current.w === 0 || afterDims.current.w === 0) return
-
-    const viewportH = window.innerHeight
-    const padding = 96 // 48px on each side (p-12)
-    const gap = 24 // gap between the two images
-    const availableW = viewportW - padding - gap
-    const availableH = viewportH - padding
-
-    // Retina-adjusted natural size
-    const scale = data.retina ? (window.devicePixelRatio || 1) : 1
-    const naturalW = beforeDims.current.w / scale
-
-    // Each image gets half the available width in side-by-side mode
-    const perImageW = availableW / 2
-
-    // How much the image would be scaled down to fit
-    const naturalH = beforeDims.current.h / scale
-    const displayScale = Math.min(perImageW / naturalW, availableH / naturalH, 1)
-    const displayW = naturalW * displayScale
-
-    // If displayed width is less than 37% of natural → images are too small for side-by-side
-    setUseTabs(displayW < naturalW * 0.37)
-  }, [data.retina])
-
-  // Re-check layout on window resize
   useEffect(() => {
     checkLayout()
     window.addEventListener("resize", checkLayout)
     return () => window.removeEventListener("resize", checkLayout)
-  }, [checkLayout, loadCount])
+  }, [checkLayout])
 
-  // Record natural dimensions when images load
-  const onBeforeLoad = useCallback(
-    (e: React.SyntheticEvent<HTMLImageElement>) => {
-      const img = e.currentTarget
-      beforeDims.current = { w: img.naturalWidth, h: img.naturalHeight }
-      setLoadCount((c) => c + 1)
-    },
-    []
-  )
-  const onAfterLoad = useCallback(
-    (e: React.SyntheticEvent<HTMLImageElement>) => {
-      const img = e.currentTarget
-      afterDims.current = { w: img.naturalWidth, h: img.naturalHeight }
-      setLoadCount((c) => c + 1)
-    },
-    []
-  )
+  // Record when images load (still needed for admin click placement)
+  const onBeforeLoad = useCallback(() => {}, [])
+  const onAfterLoad = useCallback(() => {}, [])
 
   // Reset zoom for both images
   const resetZoom = useCallback(() => {
@@ -281,56 +230,18 @@ export function ComparisonOverlay({
       {/* Content area — clicks on the background/padding pass through to
           the backdrop's onClose handler. Only images and interactive elements
           (tabs, buttons) stop propagation to prevent accidental closes. */}
+      {/* Content area — scrollable, clicks on padding close the overlay */}
       <div
-        className={`h-full flex justify-center ${
-          useTabs ? "items-start px-0 py-14" : "items-center px-0 py-14"
-        }`}
+        className="h-full overflow-y-auto flex justify-center items-start px-0 py-14"
       >
-        {/* Safe zone: clicks inside this wrapper don't close the overlay.
-            Covers the tabs/images but NOT the outer padding area. */}
-        <div className={useTabs ? "w-full py-4" : "p-8"} onClick={(e) => e.stopPropagation()}>
-        {useTabs ? (
-          /* --- Tabbed layout (viewport too narrow for side-by-side) --- */
-          <Tabs
-            defaultValue="before"
-            className="w-full"
-          >
-            <TabsList className="mx-auto mb-4 bg-black/40 text-white/60">
-              <TabsTrigger value="before" className="cursor-pointer text-white/60 hover:text-white/60 data-active:text-white data-active:bg-white/10 dark:data-active:bg-white/10 dark:data-active:text-white dark:text-white/60 dark:hover:text-white/60 not-data-active:hover:text-white not-data-active:hover:bg-white/5">
-                Before
-              </TabsTrigger>
-              <TabsTrigger value="after" className="cursor-pointer text-white/60 hover:text-white/60 data-active:text-white data-active:bg-white/10 dark:data-active:bg-white/10 dark:data-active:text-white dark:text-white/60 dark:hover:text-white/60 not-data-active:hover:text-white not-data-active:hover:bg-white/5">
-                After
-              </TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="before">
-              <ZoomContainer
-                zoom={beforeZoom}
-                onZoomChange={setBeforeZoom}
-                className="w-full flex items-center justify-center"
-              >
-                {(z) => renderImage("before", z, onBeforeLoad)}
-              </ZoomContainer>
-            </TabsContent>
-
-            <TabsContent value="after">
-              <ZoomContainer
-                zoom={afterZoom}
-                onZoomChange={setAfterZoom}
-                className="w-full flex items-center justify-center"
-              >
-                {(z) => renderImage("after", z, onAfterLoad)}
-              </ZoomContainer>
-            </TabsContent>
-          </Tabs>
-        ) : (
-          /* --- Side-by-side layout --- */
-          <div className="flex gap-6 w-full max-w-[95vw] items-start">
+        {/* Safe zone: clicks inside don't close the overlay */}
+        <div className="w-full" onClick={(e) => e.stopPropagation()}>
+          {/* Stacked on small screens (flex-col), side-by-side on wide screens (flex-row) */}
+          <div className={`flex w-full ${useStacked ? "flex-col gap-4" : "flex-row gap-6 max-w-[95vw] mx-auto items-start"}`}>
             <ZoomContainer
               zoom={beforeZoom}
               onZoomChange={setBeforeZoom}
-              className="flex-1 min-w-0 flex items-center justify-center"
+              className={useStacked ? "w-full" : "flex-1 min-w-0 flex items-center justify-center"}
             >
               {(z) => renderImage("before", z, onBeforeLoad)}
             </ZoomContainer>
@@ -338,12 +249,11 @@ export function ComparisonOverlay({
             <ZoomContainer
               zoom={afterZoom}
               onZoomChange={setAfterZoom}
-              className="flex-1 min-w-0 flex items-center justify-center"
+              className={useStacked ? "w-full" : "flex-1 min-w-0 flex items-center justify-center"}
             >
               {(z) => renderImage("after", z, onAfterLoad)}
             </ZoomContainer>
           </div>
-        )}
         </div>
       </div>
     </div>

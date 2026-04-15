@@ -168,8 +168,9 @@ export function ImageCarousel({
           <button
             type="button"
             onClick={closeOverlay}
-            className="fixed top-4 right-4 z-10 cursor-pointer rounded-full p-2 transition-colors text-white bg-black/40 hover:bg-black/60"
+            className="fixed top-4 right-4 z-10 cursor-pointer rounded-full p-2 transition-colors text-white bg-black/40 hover:bg-black/30"
             aria-label="Close gallery"
+            title="Close"
           >
             <RiCloseLine className="w-8 h-8" />
           </button>
@@ -178,8 +179,9 @@ export function ImageCarousel({
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); goPrev() }}
-            className="fixed left-3 top-1/2 -translate-y-1/2 z-10 cursor-pointer rounded-full p-2 transition-colors text-white bg-black/40 hover:bg-black/60"
+            className="fixed left-3 top-1/2 -translate-y-1/2 z-10 cursor-pointer rounded-full p-2 transition-colors text-white bg-black/40 hover:bg-black/30"
             aria-label="Previous image"
+            title="Previous"
           >
             <RiArrowLeftSLine className="w-6 h-6" />
           </button>
@@ -188,8 +190,9 @@ export function ImageCarousel({
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); goNext() }}
-            className="fixed right-3 top-1/2 -translate-y-1/2 z-10 cursor-pointer rounded-full p-2 transition-colors text-white bg-black/40 hover:bg-black/60"
+            className="fixed right-3 top-1/2 -translate-y-1/2 z-10 cursor-pointer rounded-full p-2 transition-colors text-white bg-black/40 hover:bg-black/30"
             aria-label="Next image"
+            title="Next"
           >
             <RiArrowRightSLine className="w-6 h-6" />
           </button>

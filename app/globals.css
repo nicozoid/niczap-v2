@@ -34,6 +34,8 @@ html {
     --chart-3: oklch(0.546 0.245 262.881);
     --chart-4: oklch(0.488 0.243 264.376);
     --chart-5: oklch(0.424 0.199 265.638);
+    --negative: rgb(219 0 77);
+    --positive: rgb(0 219 152);
     --radius: 0.625rem;
     --sidebar: oklch(0.985 0 0);
     --sidebar-foreground: oklch(0.145 0 0);
@@ -171,6 +173,27 @@ a:hover, a:active {
   }
   .scrollbar-visible::-webkit-scrollbar-track {
     background: transparent;
+  }
+
+  /* Annotation dot pulse animations — used by BeforeAfterComparison.
+     Idle: very slow and subtle (4s, small glow, low opacity) — just enough to hint
+     that the dots are interactive without being distracting.
+     Active: faster and more prominent (2s, larger glow) — shown on hover/tap. */
+  @keyframes pulse-dot-green-idle {
+    0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--positive) 25%, transparent); }
+    50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--positive) 0%, transparent); }
+  }
+  @keyframes pulse-dot-red-idle {
+    0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--negative) 25%, transparent); }
+    50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--negative) 0%, transparent); }
+  }
+  @keyframes pulse-dot-green {
+    0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--positive) 60%, transparent); }
+    50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--positive) 0%, transparent); }
+  }
+  @keyframes pulse-dot-red {
+    0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--negative) 60%, transparent); }
+    50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--negative) 0%, transparent); }
   }
 }
 

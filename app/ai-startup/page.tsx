@@ -8,6 +8,8 @@ import { NextProject } from "@/components/project/next-project"
 import { ProjectReflections } from "@/components/project/project-reflections"
 import { getProject } from "@/data/projects"
 import { ImageCarousel } from "@/components/ui/image-carousel"
+import { BeforeAfterComparison } from "@/components/project/before-after/before-after-comparison"
+import { yaretaProfileComparison } from "@/data/comparisons/yareta-profile"
 
 const project = getProject("/ai-startup")
 
@@ -137,6 +139,21 @@ export default function YaretaPage() {
       </ContentSection>
 
       <ImageCarousel images={redesignScreenshots} retina />
+
+      <ContentSection label="Deep dive">
+        <p>
+          As an example of how I overhauled the app, I provide an example of
+          my transformation of a single screen in the app. Much of my initial
+          work was distinguishing the underlying credible content from the
+          distracting vibe-coding bloat that Lovable had produced. From there I
+          was able to reorganise the meaningful content and flows in a way that
+          optimally user needs. Much of this involved cutting and simplifying —
+          Lovable had produced a UI that hid pointless bloat under an appearance
+          of multi-functional complexity.
+        </p>
+      </ContentSection>
+
+      <BeforeAfterComparison data={yaretaProfileComparison} />
 
       <ProjectReflections
         bulleted={false}

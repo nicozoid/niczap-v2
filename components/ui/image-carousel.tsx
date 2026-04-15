@@ -77,9 +77,45 @@ export function ImageCarousel({
   return (
     <>
       {/* ──────────────────── COLLAGE GRID ──────────────────── */}
-      {/* Klook-style layout: large image on the left, 2×2 grid on the right.
-          Clicking any image opens the overlay at that image's position. */}
-      <div className="my-12">
+
+      {/* ── Mobile: single image + dot indicators (below md) ── */}
+      <div className="my-12 md:hidden">
+        <button
+          type="button"
+          onClick={() => openAt(0)}
+          className="w-full aspect-[4/3] cursor-pointer overflow-hidden relative rounded-lg border border-black/10"
+        >
+          <Image
+            src={heroImage.src}
+            alt={heroImage.alt}
+            fill
+            sizes="100vw"
+            className="object-cover object-left-top"
+          />
+        </button>
+
+        {/* Dot indicators — one per image, tappable to jump into the overlay */}
+        {images.length > 1 && (
+          <div className="flex justify-center gap-1.5 mt-3">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => openAt(i)}
+                className={`w-2 h-2 rounded-full cursor-pointer transition-colors ${
+                  i === 0
+                    ? "bg-black"                /* highlight the visible image */
+                    : "bg-black/25"             /* dim the rest */
+                }`}
+                aria-label={`View image ${i + 1}`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* ── Desktop: Klook-style collage (md and above) ── */}
+      <div className="my-12 hidden md:block">
         {/* Two-column layout: full-height hero on the left, 2×2 grid on the right */}
         <div className="flex gap-1.5 h-[500px]">
 
@@ -87,7 +123,7 @@ export function ImageCarousel({
           <button
             type="button"
             onClick={() => openAt(0)}
-            className="flex-[3] min-w-0 cursor-pointer overflow-hidden relative rounded-lg border border-border/40"
+            className="flex-[3] min-w-0 cursor-pointer overflow-hidden relative rounded-lg border border-black/10"
           >
             <Image
               src={heroImage.src}
@@ -106,7 +142,7 @@ export function ImageCarousel({
                 key={i}
                 type="button"
                 onClick={() => openAt(i + 1)}
-                className="cursor-pointer overflow-hidden relative rounded-lg border border-border/40"
+                className="cursor-pointer overflow-hidden relative rounded-lg border border-black/10"
               >
                 <Image
                   src={image.src}

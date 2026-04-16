@@ -2,11 +2,15 @@
 
 import { useState, useCallback, useRef, useEffect } from "react"
 
-/** Wraps content (image + annotation layer) with scroll-wheel zoom and
- *  drag-to-pan. Zoom range is 1x (fit-to-viewport) to 5x.
+/** Wraps content with scroll-wheel zoom and drag-to-pan, like a PDF viewer
+ *  or Google Maps. The entire content area is one pannable canvas.
  *
- *  Uses CSS transform: scale() so the annotation layer scales naturally
- *  with the image. Individual dots apply inverse scale to stay constant size. */
+ *  At zoom 1x: content scrolls normally if it overflows (overflow: auto).
+ *  At zoom >1x: overflow is hidden, drag-to-pan is active.
+ *
+ *  Uses CSS transform: scale() so child elements (images, annotation layers)
+ *  scale naturally. Individual annotation dots apply inverse scale to stay
+ *  constant size. */
 export function ZoomContainer({
   children,
   zoom,
@@ -30,6 +34,9 @@ export function ZoomContainer({
   const containerRef = useRef<HTMLDivElement>(null)
   // Track pinch gesture distance for mobile
   const lastPinchDistance = useRef<number | null>(null)
+  // Track whether a drag/pan occurred, to suppress the subsequent click event
+  // (prevents pan gestures from accidentally closing the overlay backdrop)
+  const didPan = useRef(false)
 
   // Reset pan when zoom returns to 1
   useEffect(() => {
@@ -53,6 +60,7 @@ export function ZoomContainer({
       if (zoom <= 1) return // No panning at 1x
       e.preventDefault()
       isDragging.current = true
+      didPan.current = false
       dragStart.current = { x: e.clientX, y: e.clientY }
       panStart.current = { ...pan }
     },
@@ -62,6 +70,7 @@ export function ZoomContainer({
   const onMouseMove = useCallback(
     (e: React.MouseEvent) => {
       if (!isDragging.current) return
+      didPan.current = true
       setPan({
         x: panStart.current.x + (e.clientX - dragStart.current.x) / zoom,
         y: panStart.current.y + (e.clientY - dragStart.current.y) / zoom,
@@ -85,6 +94,7 @@ export function ZoomContainer({
       } else if (e.touches.length === 1 && zoom > 1) {
         // Single finger drag for panning (only when zoomed in)
         isDragging.current = true
+        didPan.current = false
         dragStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY }
         panStart.current = { ...pan }
       }
@@ -104,6 +114,7 @@ export function ZoomContainer({
         lastPinchDistance.current = distance
       } else if (e.touches.length === 1 && isDragging.current) {
         // Single finger pan
+        didPan.current = true
         setPan({
           x: panStart.current.x + (e.touches[0].clientX - dragStart.current.x) / zoom,
           y: panStart.current.y + (e.touches[0].clientY - dragStart.current.y) / zoom,
@@ -125,8 +136,12 @@ export function ZoomContainer({
     <div
       ref={containerRef}
       className={className}
-      // touch-action:none prevents the browser's default pinch/scroll on this element
-      style={{ overflow: "hidden", touchAction: "none" }}
+      // At 1x: allow normal scrolling (e.g. stacked images on mobile).
+      // At >1x: clip overflow and handle panning via drag.
+      style={{
+        overflow: zoom > 1 ? "hidden" : "auto",
+        touchAction: zoom > 1 ? "none" : "auto",
+      }}
       onWheel={onWheel}
       onMouseDown={onMouseDown}
       onMouseMove={onMouseMove}
@@ -135,6 +150,14 @@ export function ZoomContainer({
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
+      onClick={(e) => {
+        // After a drag-to-pan gesture the browser fires a click — stop it
+        // from bubbling up (e.g. closing an overlay backdrop)
+        if (didPan.current) {
+          e.stopPropagation()
+          didPan.current = false
+        }
+      }}
     >
       <div
         style={{
@@ -142,6 +165,11 @@ export function ZoomContainer({
           transformOrigin: "center center",
           transition: isResetting ? "transform 0.3s ease" : "none",
           cursor: zoom > 1 ? (isDragging.current ? "grabbing" : "grab") : "default",
+          // Fill the viewport so content can be centered and zooming
+          // expands into the full available space
+          minHeight: "100%",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         {/* Render function pattern: children receives the current zoom level

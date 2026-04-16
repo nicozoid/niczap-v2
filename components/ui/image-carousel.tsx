@@ -25,6 +25,9 @@ export function ImageCarousel({
   const [currentIndex, setCurrentIndex] = useState(0)
   const [overlayOpen, setOverlayOpen] = useState(false)
   const overlayRef = useRef<HTMLDivElement>(null)
+  // Mobile inline carousel: tracks which image is visible via scroll position
+  const [mobileIndex, setMobileIndex] = useState(0)
+  const mobileScrollRef = useRef<HTMLDivElement>(null)
 
   // Infinite loop navigation via modulo
   const goPrev = useCallback(
@@ -42,6 +45,20 @@ export function ImageCarousel({
     setOverlayOpen(true)
   }
   const closeOverlay = useCallback(() => setOverlayOpen(false), [])
+
+  // Update the active dot when the mobile carousel is swiped
+  const handleMobileScroll = useCallback(() => {
+    const el = mobileScrollRef.current
+    if (!el) return
+    setMobileIndex(Math.round(el.scrollLeft / el.clientWidth))
+  }, [])
+
+  // Tap a dot → smooth-scroll to that image
+  const scrollToImage = useCallback((index: number) => {
+    const el = mobileScrollRef.current
+    if (!el) return
+    el.scrollTo({ left: index * el.clientWidth, behavior: "smooth" })
+  }, [])
 
   // Reset scroll position when switching images
   useEffect(() => {
@@ -78,34 +95,44 @@ export function ImageCarousel({
     <>
       {/* ──────────────────── COLLAGE GRID ──────────────────── */}
 
-      {/* ── Mobile: single image + dot indicators (below md) ── */}
+      {/* ── Mobile: swipeable carousel + dot indicators (below md) ── */}
       <div className="my-12 md:hidden">
-        <button
-          type="button"
-          onClick={() => openAt(0)}
-          className="w-full aspect-[4/3] cursor-pointer overflow-hidden relative rounded-lg border border-black/10"
+        {/* Horizontal scroll-snap container — native swipe feel, no JS touch handling */}
+        <div
+          ref={mobileScrollRef}
+          className="flex overflow-x-auto snap-x snap-mandatory rounded-lg"
+          onScroll={handleMobileScroll}
         >
-          <Image
-            src={heroImage.src}
-            alt={heroImage.alt}
-            fill
-            sizes="100vw"
-            className="object-cover object-left-top"
-          />
-        </button>
+          {images.map((image, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => openAt(i)}
+              className="w-full flex-shrink-0 snap-start aspect-[4/3] cursor-pointer overflow-hidden relative border border-black/10"
+            >
+              <Image
+                src={image.src}
+                alt={image.alt}
+                fill
+                sizes="100vw"
+                className="object-cover object-left-top"
+              />
+            </button>
+          ))}
+        </div>
 
-        {/* Dot indicators — one per image, tappable to jump into the overlay */}
+        {/* Dot indicators — one per image, tappable to scroll to that image */}
         {images.length > 1 && (
           <div className="flex justify-center gap-1.5 mt-3">
             {images.map((_, i) => (
               <button
                 key={i}
                 type="button"
-                onClick={() => openAt(i)}
+                onClick={() => scrollToImage(i)}
                 className={`w-2 h-2 rounded-full cursor-pointer transition-colors ${
-                  i === 0
-                    ? "bg-black"                /* highlight the visible image */
-                    : "bg-black/25"             /* dim the rest */
+                  i === mobileIndex
+                    ? "bg-black"
+                    : "bg-black/25"
                 }`}
                 aria-label={`View image ${i + 1}`}
               />

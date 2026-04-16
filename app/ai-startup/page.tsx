@@ -63,7 +63,7 @@ export default function YaretaPage() {
           against the company&apos;s custom benchmarks.
         </p>
         <p>
-          The insights were powerful but their UI was confusing clients. I worked with
+          The insights are powerful but their UI was confusing clients. I worked with
           Yareta&apos;s CEO, Product Success Manager, and Founding Psychologist to completely
           redesign the UX in just 8 working days.
         </p>
@@ -162,6 +162,7 @@ export default function YaretaPage() {
           <blockquote className="relative pl-14 text-lg font-medium italic leading-relaxed">
             <span className="absolute left-0 top-0 text-7xl font-serif leading-none text-muted-foreground/40" aria-hidden="true">&ldquo;</span>
             First sale of the new product today. First pitch of it also.<br />100% success rate. They LOVED it
+            <footer className="mt-3 text-base not-italic text-muted-foreground">— Yareta CEO</footer>
           </blockquote>,
         ]}
         learnings={[

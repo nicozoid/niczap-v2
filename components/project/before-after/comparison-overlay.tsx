@@ -65,9 +65,8 @@ export function ComparisonOverlay({
 }) {
   // Stacked (vertical) vs side-by-side — matches the inline view's md: breakpoint (768px)
   const [useStacked, setUseStacked] = useState(false)
-  // Zoom levels — one per image so they can be zoomed independently
-  const [beforeZoom, setBeforeZoom] = useState(1)
-  const [afterZoom, setAfterZoom] = useState(1)
+  // Single zoom level — both images share one pannable canvas
+  const [zoom, setZoom] = useState(1)
 
   // Check layout on mount and resize — simple width check, no image measurement needed
   const checkLayout = useCallback(() => {
@@ -84,25 +83,10 @@ export function ComparisonOverlay({
   const onBeforeLoad = useCallback(() => {}, [])
   const onAfterLoad = useCallback(() => {}, [])
 
-  // Reset zoom for both images
-  const resetZoom = useCallback(() => {
-    setBeforeZoom(1)
-    setAfterZoom(1)
-  }, [])
-
-  // Zoom both images in or out by a step factor, clamped to 1x–5x
-  const zoomIn = useCallback(() => {
-    const step = (z: number) => Math.min(z * 1.3, 5)
-    setBeforeZoom(step)
-    setAfterZoom(step)
-  }, [])
-  const zoomOut = useCallback(() => {
-    const step = (z: number) => Math.max(z * 0.7, 1)
-    setBeforeZoom(step)
-    setAfterZoom(step)
-  }, [])
-
-  const isZoomed = beforeZoom > 1 || afterZoom > 1
+  const resetZoom = useCallback(() => setZoom(1), [])
+  const zoomIn = useCallback(() => setZoom((z) => Math.min(z * 1.3, 5)), [])
+  const zoomOut = useCallback(() => setZoom((z) => Math.max(z * 0.7, 1)), [])
+  const isZoomed = zoom > 1
 
   // Track mousedown time so we can distinguish a quick click from a hold-down.
   // Only quick clicks (< 300ms) should place admin dots.
@@ -219,13 +203,15 @@ export function ComparisonOverlay({
       {/* Toolbar — top-right button group */}
       <div className="fixed top-4 right-4 z-50 flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
         {isZoomed && (
-          <OverlayButton onClick={resetZoom} label="Fit to screen">
-            <RiFullscreenLine className="w-8 h-8" />
-          </OverlayButton>
+          <>
+            <OverlayButton onClick={resetZoom} label="Fit to screen">
+              <RiFullscreenLine className="w-8 h-8" />
+            </OverlayButton>
+            <OverlayButton onClick={zoomOut} label="Zoom out">
+              <RiZoomOutLine className="w-8 h-8" />
+            </OverlayButton>
+          </>
         )}
-        <OverlayButton onClick={zoomOut} label="Zoom out">
-          <RiZoomOutLine className="w-8 h-8" />
-        </OverlayButton>
         <OverlayButton onClick={zoomIn} label="Zoom in">
           <RiZoomInLine className="w-8 h-8" />
         </OverlayButton>
@@ -234,34 +220,24 @@ export function ComparisonOverlay({
         </OverlayButton>
       </div>
 
-      {/* Content area — clicks on the background/padding pass through to
-          the backdrop's onClose handler. Only images and interactive elements
-          (tabs, buttons) stop propagation to prevent accidental closes. */}
-      {/* Content area — scrollable, clicks on padding close the overlay */}
-      <div
-        className="h-full overflow-y-auto flex justify-center items-start px-0 py-14"
+      {/* Unified zoom/pan canvas — the entire image pair is one pannable surface,
+          like a PDF viewer. Scroll-wheel zooms; drag pans when zoomed in. */}
+      <ZoomContainer
+        zoom={zoom}
+        onZoomChange={setZoom}
+        className="h-full w-full"
       >
-        <div className="w-full">
-          {/* Stacked on small screens (flex-col), side-by-side on wide screens (flex-row) */}
-          <div className={`flex w-full ${useStacked ? "flex-col gap-4" : "flex-row gap-6 max-w-[95vw] mx-auto items-start"}`}>
-            <ZoomContainer
-              zoom={beforeZoom}
-              onZoomChange={setBeforeZoom}
-              className={useStacked ? "w-full" : "flex-1 min-w-0 flex items-center justify-center"}
-            >
-              {(z) => renderImage("before", z, onBeforeLoad)}
-            </ZoomContainer>
-
-            <ZoomContainer
-              zoom={afterZoom}
-              onZoomChange={setAfterZoom}
-              className={useStacked ? "w-full" : "flex-1 min-w-0 flex items-center justify-center"}
-            >
-              {(z) => renderImage("after", z, onAfterLoad)}
-            </ZoomContainer>
+        {(z) => (
+          <div className={`flex flex-1 w-full items-center justify-center px-4 py-14 ${useStacked ? "flex-col gap-4" : "flex-row gap-6 max-w-[95vw] mx-auto"}`}>
+            <div className={useStacked ? "w-full" : "flex-1 min-w-0"}>
+              {renderImage("before", z, onBeforeLoad)}
+            </div>
+            <div className={useStacked ? "w-full" : "flex-1 min-w-0"}>
+              {renderImage("after", z, onAfterLoad)}
+            </div>
           </div>
-        </div>
-      </div>
+        )}
+      </ZoomContainer>
     </div>
   )
 }

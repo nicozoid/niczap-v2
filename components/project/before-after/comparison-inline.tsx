@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { RiArrowRightCircleFill } from "@remixicon/react"
 import { cn } from "@/lib/utils"
 import type { ComparisonData } from "./types"
@@ -27,30 +26,27 @@ export function ComparisonInline({
   className?: string
 }) {
   return (
-    <div className={cn("group/compare relative flex flex-col md:flex-row md:items-stretch md:gap-4 my-12", className)}>
+    <div className={cn("group/compare relative flex flex-col md:flex-row md:items-start md:gap-4 my-12", className)}>
       {/* Before image */}
-      <div className="relative flex-1 min-w-0 overflow-hidden rounded-lg border border-border/40">
+      <div className="relative flex-1 min-w-0 rounded-lg border border-border/40">
         {/* Badge label — uses --negative with 80% opacity */}
         <span className="absolute top-3 left-3 z-10 rounded-sm bg-[var(--negative)]/80 px-2 py-0.5 text-xs font-medium text-white tracking-[0.05em] transition-transform duration-200 group-hover/compare:scale-105">
           Before
         </span>
-        {/* Clickable image — opens overlay */}
+        {/* Clickable image — opens overlay.
+            Uses plain <img> (same as overlay) so the full image displays
+            at its natural aspect ratio — no cropping — and annotation
+            dot % positions map correctly to the visible content. */}
         <button
           type="button"
           onClick={onOpenOverlay}
-          className="block w-full h-full cursor-pointer"
+          className="block w-full cursor-pointer"
         >
-          {/* object-cover: both images fill the same height container
-              (set by items-stretch on the parent flex row).
-              object-left-top: anchors to the left edge so any horizontal
-              cropping only happens on the right side. */}
-          <Image
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src={data.before.src}
             alt={data.before.alt}
-            width={0}
-            height={0}
-            sizes="(min-width: 768px) 50vw, 100vw"
-            className="w-full h-full object-cover object-left-top"
+            className="block w-full h-auto"
           />
         </button>
         {/* Annotation dots overlaid on the image */}
@@ -80,7 +76,7 @@ export function ComparisonInline({
       </div>
 
       {/* After image */}
-      <div className="relative flex-1 min-w-0 overflow-hidden rounded-lg border border-border/40">
+      <div className="relative flex-1 min-w-0 rounded-lg border border-border/40">
         {/* Badge label — uses --positive with 90% opacity */}
         <span className="absolute top-3 left-3 z-10 rounded-sm bg-[var(--positive)]/90 px-2 py-0.5 text-xs font-medium text-black tracking-[0.05em] transition-transform duration-200 group-hover/compare:scale-105">
           After
@@ -88,15 +84,13 @@ export function ComparisonInline({
         <button
           type="button"
           onClick={onOpenOverlay}
-          className="block w-full h-full cursor-pointer"
+          className="block w-full cursor-pointer"
         >
-          <Image
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src={data.after.src}
             alt={data.after.alt}
-            width={0}
-            height={0}
-            sizes="(min-width: 768px) 50vw, 100vw"
-            className="w-full h-full object-cover object-top"
+            className="block w-full h-auto"
           />
         </button>
         <AnnotationLayer
